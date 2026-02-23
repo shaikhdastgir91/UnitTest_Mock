@@ -1,0 +1,14 @@
+name: CI
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    build:
+        uses: ./.github/workflows/dotnet.yml
+    test:
+        needs: build
+        uses: ./.github/workflows/test.yml
