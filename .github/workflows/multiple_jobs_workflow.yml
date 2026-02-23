@@ -1,0 +1,27 @@
+name: multiple jobs workflow
+
+on:
+    push:
+        branches: ["main"]
+    
+    workflow_dispatch:
+
+jobs:
+    message-first:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Display Message
+              run: echo "first message"
+    message-second:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Display Message
+              run: echo "second message"
+    message-third:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Display Message
+              run: echo "third message"
