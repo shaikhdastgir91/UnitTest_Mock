@@ -2,7 +2,7 @@ name: Test Workflow
 
 on:
     workflow_run:
-        workflows: ["Build and Test .NET", " Build Workflow"]
+        workflows: ["Build and Test .NET", "Build Workflow"]
         types:
             - completed
 
