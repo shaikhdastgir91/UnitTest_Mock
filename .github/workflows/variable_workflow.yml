@@ -1,0 +1,22 @@
+name: variable workflow
+on: 
+    push:
+        branches: ["main"]
+    pull_request: 
+        branches: ["main"]
+    workflow_dispatch:
+env:
+    GREETING: "Hello World"
+    CCLOUD: "GCP"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GREETING: "Hello World"
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: Display Message
+        run: echo $GREETING
+      - name: Display Cloud Provider
+        run: echo "Cloud Provider is $CCLOUD"

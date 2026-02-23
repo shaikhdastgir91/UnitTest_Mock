@@ -1,0 +1,21 @@
+name: my awesome workflow
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+jobs:
+    build:
+       runs-on: windows-latest
+
+       steps:
+            - name: checkout code
+              uses: actions/checkout@v4
+            - name: Display Message
+              run: echo "Hello World"
+
+            - name: multiline message
+              run: |
+                echo "Hello World"
+                echo "This is a multiline message"  
