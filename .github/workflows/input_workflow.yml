@@ -1,0 +1,23 @@
+name: Input workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Enter the branch name'
+        required: true
+        default: 'main'
+
+env:
+  INITIAL: Branch Name
+
+jobs:
+  User-Input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get input
+        id: get_input
+        run: echo "INPUT=${{ inputs.branch_name }}" >> $GITHUB_ENV
+
+      - name: Print input
+        run: echo "The branch name is $INPUT"
