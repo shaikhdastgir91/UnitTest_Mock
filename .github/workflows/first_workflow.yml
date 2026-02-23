@@ -10,9 +10,9 @@ jobs:
    runs-on: ubuntu-latest
 
    steps:
-     - name: checkout code
-      uses:  actions/checkout@v4
+      - name: Checkout code     
+        uses:  actions/checkout@v4
 
-    -name: Display Message
-    run: echo Hello World
+      - name: Display Message
+        run: echo "Hello World"
   
