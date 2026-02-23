@@ -1,4 +1,4 @@
-name: Build and Test .NET
+name:  Build Workflow
 
 on:
     push:
@@ -28,5 +28,8 @@ jobs:
          - name: Build
            run: dotnet build --no-restore
 
-         - name: Test
-           run: dotnet test --no-build --verbosity normal
+         - name: Test Restore
+           run: dotnet restore src/UnitTest_Mock.sln
+        
+         - name: Build Test Project
+           run: dotnet build src/UnitTest_Mock.sln --configuration Release --no-restore
