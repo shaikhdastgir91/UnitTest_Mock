@@ -23,11 +23,15 @@ jobs:
 
       - name: Begin Sonar Analysis
         run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "ERROR: SONAR_TOKEN is not set"; exit 1
+          fi
+
           dotnet sonarscanner begin \
-          /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-          /o:"${{ secrets.SONAR_ORGANIZATION }}" \
-          /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
-          /d:sonar.host.url="https://sonarcloud.io"
+            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
+            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
+            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.host.url="https://sonarcloud.io"
 
       - name: Build
         run: dotnet build src/UnitTest_Mock.sln --configuration Release
