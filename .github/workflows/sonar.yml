@@ -1,6 +1,14 @@
-name: Sonar Qube
+name: Sonar Cloud
+
 on:
-    workflow_call:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SONAR_PROJECT_KEY:
+        required: true
+      SONAR_ORGANIZATION:
+        required: true
 
 jobs:
   sonar:
@@ -9,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -20,25 +30,22 @@ jobs:
 
       - name: Add .NET tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-      - name: Debug GitHub Context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Debug token
+
+      - name: Begin Sonar Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
         run: |
-          echo "SONAR_TOKEN length: ${#SONAR_TOKEN}"           
-      - name: Begin Sonar Analysis
-        run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "ERROR: SONAR_TOKEN is not set"; exit 1
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "ERROR: SONAR_TOKEN is not set"
+            exit 1
           fi
 
           dotnet sonarscanner begin \
-            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+            /k:"${SONAR_PROJECT_KEY}" \
+            /o:"${SONAR_ORGANIZATION}" \
+            /d:sonar.login="${SONAR_TOKEN}" \
             /d:sonar.host.url="https://sonarcloud.io"
 
       - name: Build
@@ -50,8 +57,8 @@ jobs:
           --no-build
 
       - name: End Sonar Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet sonarscanner end \
-          /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        
-
+            /d:sonar.login="${SONAR_TOKEN}"
