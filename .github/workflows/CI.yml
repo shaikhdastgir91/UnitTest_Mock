@@ -12,3 +12,6 @@ jobs:
     test:
         needs: build
         uses: ./.github/workflows/test.yml
+    sonar:
+        needs: test
+        uses: ./.github/workflows/sonar.yml
