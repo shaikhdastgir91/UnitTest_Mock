@@ -20,6 +20,10 @@ jobs:
 
       - name: Add .NET tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+      - name: Debug GitHub Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Debug token
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
