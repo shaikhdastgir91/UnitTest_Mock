@@ -21,10 +21,10 @@ jobs:
       - name: Add .NET tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
       - name: Debug token
-        run: |
-          echo "SONAR_TOKEN length: ${#SONAR_TOKEN}"
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}           
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          echo "SONAR_TOKEN length: ${#SONAR_TOKEN}"           
       - name: Begin Sonar Analysis
         run: |
           if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
